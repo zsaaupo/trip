@@ -1,10 +1,14 @@
 """
 Django settings for the Make a trip project.
 """
-from pathlib import Path
 import os
+from dotenv import load_dotenv
+from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(BASE_DIR / ".env")
+BREVO_API_KEY = os.getenv("API_KEY")
 
 # SECURITY WARNING: change this in production and keep it secret!
 SECRET_KEY = 'django-insecure-change-this-secret-key-before-deploying'
