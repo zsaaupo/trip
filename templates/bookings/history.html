@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}My Bookings — Make a trip{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="page-title-row">
+    <h1>My bookings</h1>
+  </div>
+
+  <div class="filter-bar">
+    <div class="form-group">
+      <label for="f-status">Status</label>
+      <select id="f-status">
+        <option value="">All</option>
+        <option value="pending">Pending</option>
+        <option value="confirmed">Confirmed</option>
+        <option value="declined">Declined</option>
+        <option value="cancelled">Cancelled</option>
+        <option value="completed">Completed</option>
+      </select>
+    </div>
+    <button type="button" class="btn btn--primary" id="refresh-btn">Filter</button>
+  </div>
+
+  <div id="bookings-list"><div class="spinner"></div></div>
+</div>
+
+<div class="modal-overlay" id="review-modal">
+  <div class="modal">
+    <div class="modal__header">
+      <h3>Leave a review</h3>
+      <button class="modal__close" id="close-review-modal-btn">&times;</button>
+    </div>
+    <form id="review-form">
+      <input type="hidden" id="review-booking-type">
+      <input type="hidden" id="review-booking-id">
+      <div class="form-group">
+        <label>Rating</label>
+        <div class="star-input" id="star-input">
+          <span data-value="1">★</span><span data-value="2">★</span><span data-value="3">★</span>
+          <span data-value="4">★</span><span data-value="5">★</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="review-comment">Comment (optional)</label>
+        <textarea id="review-comment" placeholder="How was your experience?"></textarea>
+      </div>
+      <button type="submit" class="btn btn--primary btn--block" id="submit-review-btn">Submit review</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/booking_history.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Transportation — Make a trip{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="page-title-row">
+    <h1>Choose your transportation</h1>
+  </div>
+  <div class="grid grid--2">
+    <a href="{% url 'page-buses-list' %}" class="module-card">
+      <span class="module-card__icon">🚌</span>
+      <h3>Bus</h3>
+      <p>Browse routes, pick your seat on an interactive seat map, and book in minutes.</p>
+    </a>
+    <a href="{% url 'page-cars-list' %}" class="module-card">
+      <span class="module-card__icon">🚗</span>
+      <h3>Car</h3>
+      <p>Charter a private car for hourly use or an intercity one-way / round trip.</p>
+    </a>
+  </div>
+</div>
+{% endblock %}

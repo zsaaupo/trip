@@ -1,0 +1,60 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Make a trip{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+  {% csrf_token %}
+
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a href="{% url 'page-home' %}" class="brand">
+        <span class="brand__mark">✈</span> Make a trip
+      </a>
+
+      <nav class="main-nav" id="main-nav">
+        <a href="{% url 'page-hotels-list' %}" class="main-nav__link">Hotels</a>
+        <a href="{% url 'page-transport-choose' %}" class="main-nav__link">Transport</a>
+        <a href="{% url 'page-packages-list' %}" class="main-nav__link">Packages</a>
+        {% if user.is_authenticated %}
+          <a href="{% url 'page-bookings-history' %}" class="main-nav__link">My Bookings</a>
+          {% if user.is_staff %}
+            <a href="{% url 'page-admin-dashboard' %}" class="main-nav__link">Admin</a>
+          {% else %}
+            <a href="{% url 'page-dashboard' %}" class="main-nav__link">Dashboard</a>
+          {% endif %}
+          <a href="{% url 'page-profile' %}" class="main-nav__link">Profile</a>
+          <button class="btn btn--ghost btn--small" id="logout-btn" type="button">Log out</button>
+        {% else %}
+          <a href="{% url 'page-login' %}" class="btn btn--ghost btn--small">Log in</a>
+          <a href="{% url 'page-register' %}" class="btn btn--primary btn--small">Sign up</a>
+        {% endif %}
+      </nav>
+
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">☰</button>
+    </div>
+  </header>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <main class="site-main">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p>&copy; 2026 Make a trip. Built for exploring the world, one booking at a time.</p>
+    </div>
+  </footer>
+
+  <script src="{% static 'js/api.js' %}"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

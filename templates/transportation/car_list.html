@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Cars — Make a trip{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="page-title-row">
+    <h1>Find a car</h1>
+  </div>
+
+  <form class="filter-bar" id="filter-form">
+    <div class="form-group">
+      <label for="f-trip-type">Trip type</label>
+      <select id="f-trip-type">
+        <option value="">Any</option>
+        <option value="hourly">Hourly</option>
+        <option value="intercity_one_way">Intercity One-Way</option>
+        <option value="intercity_round_trip">Intercity Round Trip</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="f-capacity">Capacity</label>
+      <select id="f-capacity">
+        <option value="">Any</option>
+        <option value="4">4 Seats</option>
+        <option value="12">12 Seats</option>
+        <option value="28">28 Seats</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn--primary">Search</button>
+  </form>
+
+  <div id="car-results"><div class="spinner"></div></div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/car_list.js' %}"></script>
+{% endblock %}

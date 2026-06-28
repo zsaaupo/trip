@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Sign up — Make a trip{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="auth-card">
+    <h1>Create your account</h1>
+    <p class="subtext">Join Make a trip to book hotels, transport and tour packages.</p>
+
+    <form id="register-form" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="full_name">Full name</label>
+        <input type="text" id="full_name" name="full_name" required>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="gender">Gender</label>
+          <select id="gender" name="gender" required>
+            <option value="">Select...</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone number</label>
+          <input type="tel" id="phone" name="phone" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+
+      <div class="form-group">
+        <label for="photo">Profile photo (optional)</label>
+        <input type="file" id="photo" name="photo" accept="image/*">
+        <p class="hint">Maximum file size: 1 MB.</p>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required minlength="6">
+        <p class="hint">At least 6 characters. Avoid common passwords.</p>
+      </div>
+
+      <button type="submit" class="btn btn--primary btn--block" id="submit-btn">Create account</button>
+    </form>
+
+    <p class="switch-link">Already have an account? <a href="{% url 'page-login' %}">Log in</a></p>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('register-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const btn = document.getElementById('submit-btn');
+  const formData = new FormData(form);
+
+  btn.disabled = true; btn.textContent = 'Creating account...';
+  try {
+    const data = await apiRequest('/accounts/register/', { method: 'POST', body: formData });
+    showToast(data.message || 'Account created!', 'success');
+    window.location.href = `/verify-otp/?email=${encodeURIComponent(data.email)}`;
+  } catch (err) {
+    showToast(err.message, 'error');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Create account';
+  }
+});
+</script>
+{% endblock %}

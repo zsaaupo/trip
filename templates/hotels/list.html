@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Hotels — Make a trip{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="page-title-row">
+    <h1>Find a hotel</h1>
+  </div>
+
+  <form class="filter-bar" id="filter-form">
+    <div class="form-group">
+      <label for="f-location">Location</label>
+      <input type="text" id="f-location" placeholder="e.g. Cox's Bazar">
+    </div>
+    <div class="form-group">
+      <label for="f-checkin">Check-in</label>
+      <input type="date" id="f-checkin">
+    </div>
+    <div class="form-group">
+      <label for="f-checkout">Check-out</label>
+      <input type="date" id="f-checkout">
+    </div>
+    <div class="form-group">
+      <label for="f-sort">Sort by</label>
+      <select id="f-sort">
+        <option value="">Relevance</option>
+        <option value="rating">Rating (high to low)</option>
+        <option value="price_low">Price (low to high)</option>
+        <option value="price_high">Price (high to low)</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn--primary">Search</button>
+  </form>
+
+  <div id="hotel-results"><div class="spinner"></div></div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/hotels_list.js' %}"></script>
+{% endblock %}

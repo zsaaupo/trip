@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Buses — Make a trip{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="page-title-row">
+    <h1>Find a bus</h1>
+  </div>
+
+  <form class="filter-bar" id="filter-form">
+    <div class="form-group">
+      <label for="f-location">Origin or destination</label>
+      <input type="text" id="f-location" placeholder="e.g. Dhaka">
+    </div>
+    <div class="form-group">
+      <label for="f-date">Trip date</label>
+      <input type="date" id="f-date">
+    </div>
+    <div class="form-group">
+      <label for="f-sort">Sort by</label>
+      <select id="f-sort">
+        <option value="">Relevance</option>
+        <option value="price_low">Price (low to high)</option>
+        <option value="price_high">Price (high to low)</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn--primary">Search</button>
+  </form>
+
+  <div id="bus-results"><div class="spinner"></div></div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/bus_list.js' %}"></script>
+{% endblock %}

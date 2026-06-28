@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Car details — Make a trip{% endblock %}
+
+{% block content %}
+<div class="container" data-car-id="{{ car_id }}">
+  <div id="car-header"><div class="spinner"></div></div>
+
+  <div class="grid grid--2">
+    <div class="card">
+      <h3>Booking summary</h3>
+      <div class="summary-row summary-row--total"><span>Total price</span><span id="summary-total">—</span></div>
+
+      <div class="form-group"><label>Trip date/time</label><input type="datetime-local" id="car-trip-date" required></div>
+
+      <div class="form-group" style="margin-top:14px;">
+        <label for="coupon">Coupon code (optional)</label>
+        <input type="text" id="coupon" placeholder="e.g. WELCOME10">
+      </div>
+      <div class="form-group">
+        <label>Payment method</label>
+        <div class="checkbox-row"><input type="radio" name="payment" value="cash_on_arrival" id="pay-coa" checked><label for="pay-coa">Cash on Arrival</label></div>
+        <div class="checkbox-row"><input type="radio" name="payment" value="pay_now" id="pay-now"><label for="pay-now">Pay Now (dummy)</label></div>
+      </div>
+      <div class="card" style="background:var(--color-bg);">
+        <p><strong>Terms & Conditions</strong></p>
+        <ul style="padding-left:18px;">
+          <li>You must be 18 years or older.</li>
+          <li>You must carry one valid NID.</li>
+        </ul>
+        <div class="checkbox-row">
+          <input type="checkbox" id="terms">
+          <label for="terms">I have read and accept the Terms & Conditions</label>
+        </div>
+      </div>
+      <button type="button" class="btn btn--primary btn--block" id="confirm-btn">Confirm booking</button>
+      <p id="booked-note" class="muted" style="display:none;margin-top:10px;">This car is already booked for its scheduled trip.</p>
+    </div>
+
+    <div class="card">
+      <h3>Trip details</h3>
+      <div id="car-meta"><div class="spinner"></div></div>
+    </div>
+  </div>
+
+  <hr class="divider">
+  <h2>Reviews</h2>
+  <div id="review-list"><p class="muted">Loading reviews...</p></div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/car_detail.js' %}"></script>
+{% endblock %}

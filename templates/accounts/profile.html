@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Your profile — Make a trip{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="page-title-row">
+    <h1>Your profile</h1>
+  </div>
+
+  <div class="grid grid--2">
+    <div class="card">
+      <h3>Account details</h3>
+      <form id="profile-form" enctype="multipart/form-data">
+        <div class="form-group" style="text-align:center;">
+          <img id="photo-preview" src="" alt="" style="width:96px;height:96px;border-radius:50%;object-fit:cover;display:none;margin:0 auto 10px;border:1px solid var(--color-border);">
+          <label for="photo">Profile photo</label>
+          <input type="file" id="photo" name="photo" accept="image/*">
+          <p class="hint">Maximum file size: 1 MB.</p>
+        </div>
+        <div class="form-group">
+          <label for="full_name">Full name</label>
+          <input type="text" id="full_name" name="full_name" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="gender">Gender</label>
+            <select id="gender" name="gender" required>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone number</label>
+            <input type="tel" id="phone" name="phone" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email address</label>
+          <input type="text" id="email-display" disabled>
+          <p class="hint">Email can't be changed.</p>
+        </div>
+        <button type="submit" class="btn btn--primary" id="save-btn">Save changes</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h3>Quick links</h3>
+      <p><a href="{% url 'page-bookings-history' %}">View my booking history →</a></p>
+      <p><a href="{% url 'page-hotels-list' %}">Browse hotels →</a></p>
+      <p><a href="{% url 'page-transport-choose' %}">Browse transportation →</a></p>
+      <p><a href="{% url 'page-packages-list' %}">Browse tour packages →</a></p>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+async function loadProfile() {
+  try {
+    const p = await apiRequest('/accounts/profile/');
+    document.getElementById('full_name').value = p.full_name || '';
+    document.getElementById('gender').value = p.gender || 'other';
+    document.getElementById('phone').value = p.phone || '';
+    document.getElementById('email-display').value = p.email || '';
+    if (p.photo) {
+      const img = document.getElementById('photo-preview');
+      img.src = p.photo; img.style.display = 'block';
+    }
+  } catch (err) {
+    showToast(err.message, 'error');
+  }
+}
+loadProfile();
+
+document.getElementById('profile-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('save-btn');
+  const formData = new FormData(e.target);
+  formData.delete('email-display');
+
+  btn.disabled = true; btn.textContent = 'Saving...';
+  try {
+    await apiRequest('/accounts/profile/', { method: 'PUT', body: formData });
+    showToast('Profile updated.', 'success');
+  } catch (err) {
+    showToast(err.message, 'error');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Save changes';
+  }
+});
+</script>
+{% endblock %}

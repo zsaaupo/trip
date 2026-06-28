@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Hotel details — Make a trip{% endblock %}
+
+{% block content %}
+<div class="container" data-hotel-id="{{ hotel_id }}">
+  <div id="hotel-header"><div class="spinner"></div></div>
+
+  <div class="filter-bar" style="margin-top:20px;">
+    <div class="form-group">
+      <label for="d-checkin">Check-in</label>
+      <input type="date" id="d-checkin">
+    </div>
+    <div class="form-group">
+      <label for="d-checkout">Check-out</label>
+      <input type="date" id="d-checkout">
+    </div>
+    <button type="button" class="btn btn--primary" id="check-availability-btn">Check availability</button>
+  </div>
+
+  <h2>Rooms</h2>
+  <div id="room-list" class="grid grid--2"></div>
+
+  <hr class="divider">
+  <h2>Reviews</h2>
+  <div id="review-list"><p class="muted">Loading reviews...</p></div>
+</div>
+
+<div class="modal-overlay" id="booking-modal">
+  <div class="modal">
+    <div class="modal__header">
+      <h3>Book this room</h3>
+      <button class="modal__close" id="close-modal-btn">&times;</button>
+    </div>
+    <form id="booking-form">
+      <input type="hidden" id="room-id">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="b-checkin">Check-in</label>
+          <input type="date" id="b-checkin" required>
+        </div>
+        <div class="form-group">
+          <label for="b-checkout">Check-out</label>
+          <input type="date" id="b-checkout" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="b-guests">Guests</label>
+        <input type="number" id="b-guests" min="1" value="1" required>
+      </div>
+      <div class="form-group">
+        <label for="b-coupon">Coupon code (optional)</label>
+        <input type="text" id="b-coupon" placeholder="e.g. WELCOME10">
+      </div>
+      <div class="form-group">
+        <label>Payment method</label>
+        <div class="checkbox-row"><input type="radio" name="payment" value="cash_on_arrival" id="pay-coa" checked><label for="pay-coa">Cash on Arrival</label></div>
+        <div class="checkbox-row"><input type="radio" name="payment" value="pay_now" id="pay-now"><label for="pay-now">Pay Now (dummy)</label></div>
+      </div>
+      <div class="card" style="background:var(--color-bg);">
+        <p><strong>Terms & Conditions</strong></p>
+        <ul style="padding-left:18px;">
+          <li>Guests must be 18 years or older.</li>
+          <li>Each guest must carry a valid NID at check-in.</li>
+        </ul>
+        <div class="checkbox-row">
+          <input type="checkbox" id="b-terms" required>
+          <label for="b-terms">I have read and accept the Terms & Conditions</label>
+        </div>
+      </div>
+      <button type="submit" class="btn btn--primary btn--block" id="confirm-booking-btn">Confirm booking</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/hotel_detail.js' %}"></script>
+{% endblock %}

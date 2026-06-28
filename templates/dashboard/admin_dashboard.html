@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Admin Dashboard — Make a trip{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="page-title-row">
+    <h1>Admin dashboard</h1>
+  </div>
+
+  <div class="tab-bar" id="tab-bar">
+    <button class="tab-btn tab-btn--active" data-tab="overview">Overview</button>
+    <button class="tab-btn" data-tab="hotels">Hotels</button>
+    <button class="tab-btn" data-tab="buses">Buses</button>
+    <button class="tab-btn" data-tab="cars">Cars</button>
+    <button class="tab-btn" data-tab="packages">Packages</button>
+    <button class="tab-btn" data-tab="bookings">Bookings</button>
+    <button class="tab-btn" data-tab="reviews">Reviews</button>
+    <button class="tab-btn" data-tab="coupons">Coupons</button>
+  </div>
+
+  <!-- Overview -->
+  <div class="tab-panel tab-panel--active" id="panel-overview">
+    <div id="stats-grid"><div class="spinner"></div></div>
+  </div>
+
+  <!-- Hotels -->
+  <div class="tab-panel" id="panel-hotels">
+    <div class="section-heading"><h2>Hotels</h2><button class="btn btn--primary btn--small" id="toggle-hotel-form">+ Add hotel</button></div>
+    <form class="card" id="hotel-form" style="display:none;margin-bottom:20px;">
+      <div class="form-row">
+        <div class="form-group"><label>Name</label><input type="text" id="h-name" required></div>
+        <div class="form-group"><label>Location</label><input type="text" id="h-location" required></div>
+      </div>
+      <div class="form-group"><label>Description</label><textarea id="h-description"></textarea></div>
+      <button type="submit" class="btn btn--primary">Save hotel</button>
+    </form>
+    <div id="hotels-table"><div class="spinner"></div></div>
+  </div>
+
+  <!-- Buses -->
+  <div class="tab-panel" id="panel-buses">
+    <div class="section-heading"><h2>Buses</h2><button class="btn btn--primary btn--small" id="toggle-bus-form">+ Add bus</button></div>
+    <form class="card" id="bus-form" style="display:none;margin-bottom:20px;" enctype="multipart/form-data">
+      <div class="form-row">
+        <div class="form-group"><label>Bus name</label><input type="text" id="bus-name" required></div>
+        <div class="form-group"><label>Trip date/time</label><input type="datetime-local" id="bus-trip-date" required></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Origin</label><input type="text" id="bus-origin" required></div>
+        <div class="form-group"><label>Destination</label><input type="text" id="bus-destination" required></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Climate control</label>
+          <select id="bus-climate"><option value="ac">AC</option><option value="non_ac">Non-AC</option></select>
+        </div>
+        <div class="form-group"><label>Total seats</label><input type="number" id="bus-seats" min="1" value="36" required></div>
+        <div class="form-group"><label>Price per seat</label><input type="number" id="bus-price" min="0" step="0.01" required></div>
+      </div>
+      <div class="form-group"><label>Photo</label><input type="file" id="bus-photo" accept="image/*" required><p class="hint">Maximum file size: 1 MB.</p></div>
+      <button type="submit" class="btn btn--primary">Save bus</button>
+    </form>
+    <div id="buses-table"><div class="spinner"></div></div>
+  </div>
+
+  <!-- Cars -->
+  <div class="tab-panel" id="panel-cars">
+    <div class="section-heading"><h2>Cars</h2><button class="btn btn--primary btn--small" id="toggle-car-form">+ Add car</button></div>
+    <form class="card" id="car-form" style="display:none;margin-bottom:20px;" enctype="multipart/form-data">
+      <div class="form-row">
+        <div class="form-group"><label>Name</label><input type="text" id="car-name" value="Charter Car" required></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Trip type</label>
+          <select id="car-trip-type">
+            <option value="hourly">Hourly</option>
+            <option value="intercity_one_way">Intercity One-Way</option>
+            <option value="intercity_round_trip">Intercity Round Trip</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Capacity</label>
+          <select id="car-capacity"><option value="4">4 Seats</option><option value="12">12 Seats</option><option value="28">28 Seats</option></select>
+        </div>
+        <div class="form-group"><label>Climate control</label>
+          <select id="car-climate"><option value="ac">AC</option><option value="non_ac">Non-AC</option></select>
+        </div>
+        <div class="form-group"><label>Price</label><input type="number" id="car-price" min="0" step="0.01" required></div>
+      </div>
+      <div class="form-group"><label>Photo</label><input type="file" id="car-photo" accept="image/*" required><p class="hint">Maximum file size: 1 MB.</p></div>
+      <button type="submit" class="btn btn--primary">Save car</button>
+    </form>
+    <div id="cars-table"><div class="spinner"></div></div>
+  </div>
+
+  <!-- Packages -->
+  <div class="tab-panel" id="panel-packages">
+    <div class="section-heading"><h2>Tour packages</h2><button class="btn btn--primary btn--small" id="toggle-package-form">+ Add package</button></div>
+    <form class="card" id="package-form" style="display:none;margin-bottom:20px;" enctype="multipart/form-data">
+      <div class="form-row">
+        <div class="form-group"><label>Name</label><input type="text" id="p-name" required></div>
+        <div class="form-group"><label>Location</label><input type="text" id="p-location" required></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Duration</label><input type="text" id="p-duration" placeholder="3 Days 2 Nights" required></div>
+        <div class="form-group"><label>Type</label>
+          <select id="p-type"><option value="couple">Couple</option><option value="group">Group</option><option value="single">Single</option></select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Hotel (optional)</label><select id="p-hotel"><option value="">None</option></select></div>
+        <div class="form-group"><label>Transport type (optional)</label>
+          <select id="p-transport-type"><option value="">None</option><option value="bus">Bus</option><option value="car">Car</option></select>
+        </div>
+        <div class="form-group"><label>Transport</label><select id="p-transport-id"><option value="">—</option></select></div>
+      </div>
+      <div class="form-group"><label>Inclusions</label><textarea id="p-inclusions"></textarea></div>
+      <div class="form-group"><label>Exclusions</label><textarea id="p-exclusions"></textarea></div>
+      <div class="form-row">
+        <div class="form-group"><label>Price per person</label><input type="number" id="p-price" min="0" step="0.01" required></div>
+        <div class="form-group"><label>Photo</label><input type="file" id="p-photo" accept="image/*" required><p class="hint">Maximum file size: 1 MB.</p></div>
+      </div>
+      <button type="submit" class="btn btn--primary">Save package</button>
+    </form>
+    <div id="packages-table"><div class="spinner"></div></div>
+  </div>
+
+  <!-- Bookings -->
+  <div class="tab-panel" id="panel-bookings">
+    <div class="section-heading"><h2>All bookings</h2></div>
+    <div class="filter-bar">
+      <div class="form-group"><label>Type</label>
+        <select id="bk-type-filter">
+          <option value="">All</option><option value="hotel">Hotel</option><option value="bus">Bus</option>
+          <option value="car">Car</option><option value="package">Package</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Status</label>
+        <select id="bk-status-filter">
+          <option value="">All</option><option value="pending">Pending</option><option value="confirmed">Confirmed</option>
+          <option value="declined">Declined</option><option value="cancelled">Cancelled</option><option value="completed">Completed</option>
+        </select>
+      </div>
+      <button class="btn btn--primary" id="bk-filter-btn">Filter</button>
+    </div>
+    <div id="bookings-table"><div class="spinner"></div></div>
+  </div>
+
+  <!-- Reviews -->
+  <div class="tab-panel" id="panel-reviews">
+    <div class="section-heading"><h2>Pending reviews</h2></div>
+    <div id="reviews-table"><div class="spinner"></div></div>
+  </div>
+
+  <!-- Coupons -->
+  <div class="tab-panel" id="panel-coupons">
+    <div class="section-heading"><h2>Coupons</h2><button class="btn btn--primary btn--small" id="toggle-coupon-form">+ Add coupon</button></div>
+    <form class="card" id="coupon-form" style="display:none;margin-bottom:20px;">
+      <div class="form-row">
+        <div class="form-group"><label>Code</label><input type="text" id="c-code" required></div>
+        <div class="form-group"><label>Discount type</label>
+          <select id="c-discount-type"><option value="percentage">Percentage</option><option value="fixed">Fixed amount</option></select>
+        </div>
+        <div class="form-group"><label>Discount value</label><input type="number" id="c-discount-value" min="0" step="0.01" required></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Expiry date</label><input type="date" id="c-expiry" required></div>
+        <div class="form-group"><label>Minimum order amount</label><input type="number" id="c-min-order" min="0" step="0.01" value="0"></div>
+        <div class="form-group"><label>Max usage count</label><input type="number" id="c-max-usage" min="1" value="100"></div>
+      </div>
+      <div class="checkbox-row"><input type="checkbox" id="c-is-global" checked><label for="c-is-global">Available to all customers</label></div>
+      <button type="submit" class="btn btn--primary" style="margin-top:12px;">Save coupon</button>
+    </form>
+    <div id="coupons-table"><div class="spinner"></div></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="rooms-modal">
+  <div class="modal" style="max-width:760px;">
+    <div class="modal__header">
+      <h3 id="rooms-modal-title">Manage rooms</h3>
+      <button class="modal__close" id="close-rooms-modal-btn">&times;</button>
+    </div>
+    <form class="card" id="room-form" style="margin-bottom:18px;" enctype="multipart/form-data">
+      <input type="hidden" id="room-hotel-id">
+      <div class="form-row">
+        <div class="form-group"><label>Check-in (availability start)</label><input type="date" id="r-checkin" required></div>
+        <div class="form-group"><label>Check-out (availability end)</label><input type="date" id="r-checkout" required></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Bed type</label><select id="r-bed-type"><option value="single">Single (max 2)</option><option value="double">Double (max 4)</option></select></div>
+        <div class="form-group"><label>Climate control</label><select id="r-climate"><option value="ac">AC</option><option value="non_ac">Non-AC</option></select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Total availability</label><input type="number" id="r-availability" min="1" value="1" required></div>
+        <div class="form-group"><label>Price per night</label><input type="number" id="r-price" min="0" step="0.01" required></div>
+      </div>
+      <div class="form-group"><label>Amenities</label><div id="r-amenities"></div></div>
+      <div class="form-group"><label>Photo</label><input type="file" id="r-photo" accept="image/*" required><p class="hint">Maximum file size: 1 MB.</p></div>
+      <button type="submit" class="btn btn--primary btn--small">Add room</button>
+    </form>
+    <div id="rooms-list"></div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/admin_dashboard.js' %}"></script>
+{% endblock %}

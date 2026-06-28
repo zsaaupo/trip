@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — Make a trip{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="page-title-row">
+    <h1>What would you like to book?</h1>
+  </div>
+
+  <div class="grid grid--3">
+    <a href="{% url 'page-hotels-list' %}" class="module-card">
+      <span class="module-card__icon">🏨</span>
+      <h3>Hotel</h3>
+      <p>Filter by location and check-in/out dates, then sort by rating or price.</p>
+    </a>
+    <a href="{% url 'page-transport-choose' %}" class="module-card">
+      <span class="module-card__icon">🚌</span>
+      <h3>Transportation</h3>
+      <p>Book a bus seat or a charter car for your trip.</p>
+    </a>
+    <a href="{% url 'page-packages-list' %}" class="module-card">
+      <span class="module-card__icon">🗺️</span>
+      <h3>Tour Package</h3>
+      <p>Couple, group, or single getaways with hotel & transport bundled in.</p>
+    </a>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section-heading">
+    <h2>Recent bookings</h2>
+    <a href="{% url 'page-bookings-history' %}">View all →</a>
+  </div>
+  <div id="recent-bookings"><div class="spinner"></div></div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+async function loadRecentBookings() {
+  const container = document.getElementById('recent-bookings');
+  try {
+    const bookings = await apiRequest('/dashboard/my-bookings/');
+    if (!bookings.length) {
+      container.innerHTML = `<div class="empty-state"><div class="empty-state__icon">🧳</div><p>No bookings yet — start by exploring hotels, transport, or packages above.</p></div>`;
+      return;
+    }
+    const rows = bookings.slice(0, 5).map(b => `
+      <tr>
+        <td>${escapeHtml(b.invoice_id)}</td>
+        <td>${escapeHtml(b.booking_type)}</td>
+        <td>${escapeHtml(b.service_name)}</td>
+        <td>${formatDate(b.service_date)}</td>
+        <td><span class="${statusBadgeClass(b.status)}">${escapeHtml(b.status_display)}</span></td>
+        <td>${formatMoney(b.total_amount)}</td>
+      </tr>`).join('');
+    container.innerHTML = `
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Invoice</th><th>Type</th><th>Service</th><th>Service date</th><th>Status</th><th>Total</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`;
+  } catch (err) {
+    container.innerHTML = `<p class="muted">Couldn't load bookings: ${escapeHtml(err.message)}</p>`;
+  }
+}
+loadRecentBookings();
+</script>
+{% endblock %}

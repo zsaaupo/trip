@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Make a trip — Plan hotels, transport & tours{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="container">
+    <h1>Plan your whole trip in one place</h1>
+    <p>Search hotels, book buses or charter cars, and browse curated tour packages — all with simple, transparent booking and clear cancellation terms.</p>
+    <div class="hero-actions">
+      <a href="{% url 'page-hotels-list' %}" class="btn btn--accent">Find a hotel</a>
+      <a href="{% url 'page-packages-list' %}" class="btn btn--ghost" style="background:#fff;">Browse tour packages</a>
+    </div>
+  </div>
+</section>
+
+<div class="container module-grid">
+  <div class="grid grid--3">
+    <a href="{% url 'page-hotels-list' %}" class="module-card">
+      <span class="module-card__icon">🏨</span>
+      <h3>Hotels</h3>
+      <p>Filter by location and dates, compare rooms by price or rating, and book in a few clicks.</p>
+    </a>
+    <a href="{% url 'page-transport-choose' %}" class="module-card">
+      <span class="module-card__icon">🚌</span>
+      <h3>Transportation</h3>
+      <p>Pick a bus seat on an interactive seat map, or charter a private car for hourly or intercity trips.</p>
+    </a>
+    <a href="{% url 'page-packages-list' %}" class="module-card">
+      <span class="module-card__icon">🗺️</span>
+      <h3>Tour Packages</h3>
+      <p>Curated couple, group, or single getaways that bundle your hotel and transport together.</p>
+    </a>
+  </div>
+</div>
+
+<div class="container" style="margin-top:60px;">
+  <div class="grid grid--3">
+    <div class="card">
+      <h3>Transparent cancellations</h3>
+      <p class="muted">Cancel more than 48 hours ahead for an 80% refund, 24–48 hours for 50%, and within 24 hours bookings are non-refundable — no surprises.</p>
+    </div>
+    <div class="card">
+      <h3>Pay your way</h3>
+      <p class="muted">Choose Cash on Arrival or Pay Now at checkout — whichever suits your trip.</p>
+    </div>
+    <div class="card">
+      <h3>Real reviews</h3>
+      <p class="muted">Ratings come only from customers with a confirmed booking, moderated before they go live.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}
